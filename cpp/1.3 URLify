@@ -40,9 +40,9 @@ void urlify(char s[], int trueLength) {
   int index = trueLength + spaceCount * 2; // 13 + 2*2 = 17
 
   // if extra spaces at the end add a null char to avoid ....
-  if (trueLength < strlen(s)) { // 13 < 17
-    s[index] = '\0';            // str[17] = '\0' , "Mr John Smith   \0"
-  }
+  // if (trueLength < strlen(s)) { // 13 < 17
+  //   s[index] = '\0';            // str[17] = '\0' , "Mr John Smith   \0"
+  // }
 
   // easier to modify string from end to beginning
   for (int i = trueLength - 1; i >= 0; i--) { // index 12 to 0
@@ -59,8 +59,9 @@ void urlify(char s[], int trueLength) {
 };
 
 int main() {
-  char s[100] = "Mr John Smith    "; // assume string has enough space
-  int trueLength = 13;               // 13
+  // char s[100] = "Mr John Smith    "; // assume string has enough space
+  char s[] = "Mr John Smith    "; 
+  int trueLength = 13;            // 13
   urlify(s, trueLength);
 
   cout << s;
