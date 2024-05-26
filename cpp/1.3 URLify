@@ -1,0 +1,72 @@
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+// Brute Force Solution
+// Problems: its not in place modification
+// std:string, is not usually managed in-place due to dynamic memory allocation.
+// 'insert' method reallocates memory if necessary so not its not strictly
+// in-place. string urlify(string s) {
+//   for (int i = 0; i < s.length(); i++) {
+//     if (s[i] == ' ') {
+//       s[i] = '%';
+//       s.insert(i+1, "20");
+//     }
+//   }
+//   return s;
+//   //return count;
+// }
+
+// int main() {
+//   string s = "Mr John Smith";
+//   // int sSize = 13; //17?
+//   cout << urlify(s);
+//   return 0;
+// }
+
+// Correct In-Place Solution
+void urlify(char s[], int trueLength) {
+
+  // grab the count of spaces
+  int spaceCount = 0;
+  for (int i = 0; i < trueLength; i++) {
+    if (s[i] == ' ') {
+      spaceCount++;
+    }
+  }
+
+  // for each space we need 2 more spaces
+  // calculate new length
+  int index = trueLength + spaceCount * 2; // 13 + 2*2 = 17
+
+  // if extra spaces at the end add a null char to avoid ....
+  if (trueLength < strlen(s)) { // 13 < 17
+    s[index] = '\0';            // str[17] = '\0' , "Mr John Smith   \0"
+  }
+
+  // easier to modify string from end to beginning
+  for (int i = trueLength - 1; i >= 0; i--) { // index 12 to 0
+    if (s[i] == ' ') {
+      s[index - 1] = '0';
+      s[index - 2] = '2';
+      s[index - 3] = '%';
+      index -= 3;
+    } else {
+      s[index - 1] = s[i];
+      index--;
+    }
+  }
+};
+
+int main() {
+  char s[100] = "Mr John Smith    "; // assume string has enough space
+  int trueLength = 13;               // 13
+  urlify(s, trueLength);
+
+  cout << s;
+
+  return 0;
+}
+
+// TIME COMPLEXITY: O(n)
+// SPACE COMPLEXITY: O(1)
